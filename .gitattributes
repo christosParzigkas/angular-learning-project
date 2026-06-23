@@ -1,0 +1,17 @@
+# Normalize line endings across operating systems.
+# Git stores text files with LF internally and checks them out
+# using each developer's native line ending (CRLF on Windows, LF on macOS/Linux).
+# This ends the "LF will be replaced by CRLF" warnings.
+* text=auto
+
+# Force LF for files that must stay LF on every platform (scripts, config).
+*.sh   text eol=lf
+
+# Treat these as binary so Git never alters their bytes.
+*.ico  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.woff  binary
+*.woff2 binary
