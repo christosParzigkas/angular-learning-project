@@ -1,59 +1,71 @@
-# AngularLearningProject
+# Angular Learning Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.16.
+A small Angular application built from scratch as part of a mentorship program.
+The goal is to learn the full professional workflow — project setup, Git and
+GitHub, branching and pull requests, and Angular fundamentals — not just the code.
 
-## Development server
+## Tech stack
 
-To start a local development server, run:
+- **Angular** 21 (standalone components, routing)
+- **TypeScript** 5.9
+- **SCSS** for styling
+- **Vitest** for unit tests
+- Built and served with the **Angular CLI**
 
-```bash
-ng serve
-```
+## Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- [Node.js](https://nodejs.org/) 22 LTS or newer
+- npm 10+ (comes with Node)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting started
 
 ```bash
-ng generate --help
+# 1. Clone the repository
+git clone https://github.com/christosParzigkas/angular-learning-project.git
+cd angular-learning-project
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm start
 ```
 
-## Building
+Then open <http://localhost:4200/> in your browser. The app reloads
+automatically whenever you change a source file.
 
-To build the project run:
+## Available scripts
 
-```bash
-ng build
+| Command         | What it does                                              |
+| --------------- | --------------------------------------------------------- |
+| `npm start`     | Runs the dev server at `http://localhost:4200/`.          |
+| `npm run build` | Builds the app for production into the `dist/` folder.    |
+| `npm run watch` | Rebuilds automatically on every change (development mode).|
+| `npm test`      | Runs the unit tests with Vitest.                          |
+
+## Project structure
+
+```
+angular-learning-project/
+├── src/
+│   ├── app/            # Application components, routes, and config
+│   ├── index.html      # Single HTML page that hosts the app
+│   ├── main.ts         # Entry point that bootstraps the app
+│   └── styles.scss     # Global styles
+├── public/             # Static assets served as-is (e.g. favicon)
+└── angular.json        # Angular CLI workspace configuration
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Development workflow
 
-## Running unit tests
+All changes go through a pull request — direct pushes to `master` are blocked
+by a branch protection rule. The cycle is:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. Create a branch (e.g. `TASK-1_short_description`).
+2. Commit your work on that branch.
+3. Push the branch and open a pull request into `master`.
+4. Review the changes, then merge.
 
-```bash
-ng test
-```
+## License
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Released under the [MIT License](LICENSE).
