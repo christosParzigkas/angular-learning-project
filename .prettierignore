@@ -1,0 +1,10 @@
+# Build output & caches
+dist/
+.angular/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Lockfile (let npm own its formatting)
+package-lock.json
