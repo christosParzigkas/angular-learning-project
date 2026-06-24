@@ -36,12 +36,12 @@ automatically whenever you change a source file.
 
 ## Available scripts
 
-| Command         | What it does                                              |
-| --------------- | --------------------------------------------------------- |
-| `npm start`     | Runs the dev server at `http://localhost:4200/`.          |
-| `npm run build` | Builds the app for production into the `dist/` folder.    |
-| `npm run watch` | Rebuilds automatically on every change (development mode).|
-| `npm test`      | Runs the unit tests with Vitest.                          |
+| Command         | What it does                                               |
+| --------------- | ---------------------------------------------------------- |
+| `npm start`     | Runs the dev server at `http://localhost:4200/`.           |
+| `npm run build` | Builds the app for production into the `dist/` folder.     |
+| `npm run watch` | Rebuilds automatically on every change (development mode). |
+| `npm test`      | Runs the unit tests with Vitest.                           |
 
 ## Project structure
 
