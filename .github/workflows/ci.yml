@@ -1,0 +1,94 @@
+# Runs the quality checks on every pull request into master, and on every push to
+# master (a merged PR) runs them again and then deploys the app to GitHub Pages.
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+# Least privilege: jobs can only read the repository unless they ask for more.
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  format:
+    name: Format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm test -- --watch=false
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # The site is served from /angular-learning-project/, not from the domain root.
+      - name: Build for GitHub Pages
+        run: npm run build -- --base-href /angular-learning-project/
+      # GitHub Pages has no SPA fallback, so refreshing /page-one would return a 404.
+      # Serving index.html as the 404 page lets the Angular router handle every route.
+      - name: Add SPA fallback page
+        run: cp dist/angular-learning-project/browser/index.html dist/angular-learning-project/browser/404.html
+      - name: Upload Pages artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist/angular-learning-project/browser
+
+  deploy:
+    name: Deploy to GitHub Pages
+    # Deploy only after every check has passed, and never from a pull request.
+    needs: [lint, format, test, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Let a running deployment finish instead of cancelling it halfway.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
