@@ -1,8 +1,12 @@
 # Angular Learning Project
 
+[![CI/CD](https://github.com/christosParzigkas/angular-learning-project/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/christosParzigkas/angular-learning-project/actions/workflows/ci.yml)
+
 A small Angular application built from scratch as part of a mentorship program.
 The goal is to learn the full professional workflow — project setup, Git and
 GitHub, branching and pull requests, and Angular fundamentals — not just the code.
+
+**Live demo:** <https://christosparzigkas.github.io/angular-learning-project/>
 
 ## Tech stack
 
@@ -15,8 +19,9 @@ GitHub, branching and pull requests, and Angular fundamentals — not just the c
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 22 LTS or newer
-- npm 10+ (comes with Node)
+- [Node.js](https://nodejs.org/) 24 LTS (the version is pinned in `.nvmrc`; run
+  `nvm use` if you use nvm)
+- npm 11+ (comes with Node)
 
 ## Getting started
 
@@ -62,10 +67,25 @@ in review:
   The hook installs automatically via the `prepare` script when you run
   `npm install`.
 
+## CI/CD
+
+A GitHub Actions workflow ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))
+runs on every pull request into `master` and on every push to `master`:
+
+1. **Lint**, **Format check**, **Unit tests** and **Build** run as separate jobs,
+   so a failure shows exactly which check broke. Each job installs dependencies
+   with `npm ci` on the Node version from `.nvmrc`, and npm downloads are cached
+   between runs.
+2. If any check fails, the workflow fails and the pull request shows a red status.
+3. On a push to `master` (a merged pull request), and only if every check passed,
+   the **Deploy** job publishes the production build to
+   [GitHub Pages](https://christosparzigkas.github.io/angular-learning-project/).
+
 ## Project structure
 
 ```
 angular-learning-project/
+├── .github/workflows/  # CI/CD pipeline (GitHub Actions)
 ├── src/
 │   ├── app/            # Application components, routes, and config
 │   ├── index.html      # Single HTML page that hosts the app
@@ -76,6 +96,7 @@ angular-learning-project/
 ├── .prettierrc         # Prettier formatting options
 ├── .lintstagedrc.json  # Which checks run on staged files at commit time
 ├── .husky/             # Git hooks (the pre-commit gate)
+├── .nvmrc              # Node.js version used locally and in CI
 └── angular.json        # Angular CLI workspace configuration
 ```
 
@@ -87,7 +108,8 @@ by a branch protection rule. The cycle is:
 1. Create a branch (e.g. `TASK-1_short_description` or `EXTRA-1_short_description`).
 2. Commit your work — the pre-commit hook lints and checks formatting on staged files.
 3. Push the branch and open a pull request into `master`.
-4. Review the changes, then merge.
+4. Wait for the CI checks to pass, review the changes, then merge. The merge
+   deploys the app automatically.
 
 ## License
 
